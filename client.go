@@ -20,15 +20,32 @@ func main() {
 	}
 	caCertPool := x509.NewCertPool()
 	caCertPool.AppendCertsFromPEM(caCert)
+	//
+	//// Create a HTTPS client and supply the created CA pool
+	//client := &http.Client{
+	//	Transport: &http.Transport{
+	//		TLSClientConfig: &tls.Config{
+	//			RootCAs: caCertPool,
+	//		},
+	//	},
+	//}
 
-	// Create a HTTPS client and supply the created CA pool
+	//mTLS
+	// Read the key pair to create certification
+	cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
+	if err != nil {
+		log.Fatal(err)
+	}
+	//Create a HTTPS client and supply the created CA pool and certificate
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
 				RootCAs: caCertPool,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
+
 
 	// Request /hello over HTTPS client over port 8443 via the GET method
 	r, err := client.Get("https://localhost:8443/hello")
