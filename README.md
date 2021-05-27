@@ -12,5 +12,15 @@
               -addext 'subjectAltName=DNS:localhost'
 ```
 
+##To run the server:
+```bash
+go  run -v server.go
+```
+
+##To run the client on a different instance of the terminal
+```bash
+go  run -v client.go
+```
+
 ## Acknowledgements
 - [A step by step guide to mTLS in Go](https://venilnoronha.io/a-step-by-step-guide-to-mtls-in-go)
